@@ -1,21 +1,55 @@
-#!/usr/bin/env sh
+#!/usr/bin/bash
 
 # Copyright (c) 2015 Dominic Gomez
-
-#################################
-# SUPER AUDIOPHILE TEN-THOUSAND #
-#################################
 #
-# A simple script to Convert* anything to a lossless audio file (with a constant
-# (Theta(1)) time complexity).
+# SUPER AUDIOPHILE TEN THOUSAND
+#
+# A simple script to convert* anything** to a lossless audio file.
+#
+# * To 'convert' a file 'a' to a lossless audio file is to create a copy of 'a'
+# with its extension replaced by '.flac'. If 'a' does not have an extension,
+# '.flac' is appended to its name.
+#
+# ** Like files and stuff.
 
-AUDIOPHILE_APPROVED_EXTENSION='.flac'
+# The file extension given to the converted file.
+# AUDIOPHILE_APPROVED_EXTENSION=".wav"
+AUDIOPHILE_APPROVED_EXTENSION=".flac"
 
-for i in "$@"
-do
-    echo "$i"
+# Command line flags.
+verbose=true
+recursive=false
+
+# convert infile outfile
+# Copy infile and give it outfile's name.
+function convert {
+    if [[ $verbose == true ]]; then
+        echo "Converting \"$1\" to \"$2\"..."
+    fi
+    cp "$infile" "$outfile" 2>/dev/null
+}
+
+for i in "$@"; do # Process arguments in order. Single pass.
+    if [[ -e $i ]]; then # Is this a file?
+        infile="$i"
+        outfile="${infile%.*}""$AUDIOPHILE_APPROVED_EXTENSION"
+        if [[ -r $infile ]]; then # Can I read it?
+            if [[ -f $infile ]]; then # Is it a regular file?
+                convert "$infile" "$outfile"
+            elif [[ -d $infile ]]; then # Or is it a directory?
+                if [[ ! -z $recursive ]]; then # Should we recurse?
+                    echo ">>> Recursion not yet implemented."
+                else
+                    echo "ERROR: \"$i\" is a directory. Try running with -r"
+                    exit 1
+                fi
+            fi
+        else
+            echo "ERROR: Cannot open \"$i\" for reading."
+            exit 1
+        fi
+    else
+        echo "ERROR: \"$i\" does not exist."
+        exit 1
+    fi
 done
-
-# * To "Convert" a file to a lossless audio file is to create a copy
-# of file a with its extension replaced by ".flac". If the provided file does
-# not have an extension, ".flac" is appended to its name.
