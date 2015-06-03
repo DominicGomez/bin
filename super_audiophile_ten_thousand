@@ -17,7 +17,7 @@
 AUDIOPHILE_APPROVED_EXTENSION=".flac"
 
 # Command line flags.
-verbose=true
+verbose=false
 recursive=false
 
 # convert infile outfile
@@ -32,7 +32,7 @@ function convert {
 for i in "$@"; do # Process arguments in order. Single pass.
     if [[ -e $i ]]; then # Is this a file?
         infile="$i"
-        outfile="${infile%.*}""$AUDIOPHILE_APPROVED_EXTENSION"
+        outfile="${infile%.*}""$AUDIOPHILE_APPROVED_EXTENSION" # New extension.
         if [[ -r $infile ]]; then # Can I read it?
             if [[ -f $infile ]]; then # Is it a regular file?
                 convert "$infile" "$outfile"
