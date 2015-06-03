@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+
+# Copyright (c) 2015 Dominic Gomez
+
+#################################
+# SUPER AUDIOPHILE TEN-THOUSAND #
+#################################
+#
+# A simple script to Convert* anything to a lossless audio file (with a constant
+# (Theta(1)) time complexity).
+
+AUDIOPHILE_APPROVED_EXTENSION='.flac'
+
+for i in "$@"
+do
+    echo "$i"
+done
+
+# * To "Convert" a file to a lossless audio file is to create a copy
+# of file a with its extension replaced by ".flac". If the provided file does
+# not have an extension, ".flac" is appended to its name.
