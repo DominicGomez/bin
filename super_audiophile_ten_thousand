@@ -29,7 +29,8 @@ function convert {
     cp "$infile" "$outfile" 2>/dev/null
 }
 
-for i in "$@"; do # Process arguments in order. Single pass.
+# Process arguments in order. Single pass.
+for i in "$@"; do
     if [[ -e $i ]]; then # Is this a file?
         infile="$i"
         outfile="${infile%.*}""$AUDIOPHILE_APPROVED_EXTENSION" # New extension.
